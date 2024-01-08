@@ -1,12 +1,16 @@
 version: "3.9"
 services:
   redis:
+    container_name: redis
+    hostname: redis
     image: redis:7-alpine
     restart: always
     networks:
       - wordpress
 
-  db:
+  mariadb:
+    container_name: mariadb
+    hostname: mariadb
     image: mariadb:11-jammy
     restart: always
     volumes:
@@ -17,6 +21,8 @@ services:
       - wordpress
 
   wordpress:
+    container_name: wordpress
+    hostname: wordpress
     build:
       context: ./docker/wordpress
       dockerfile: Dockerfile
@@ -33,6 +39,8 @@ services:
       - wordpress
 
   caddy:
+    container_name: caddy
+    hostname: caddy
     build:
       context: ./docker/caddy
       dockerfile: Dockerfile
@@ -54,3 +62,4 @@ services:
 networks:
   wordpress:
     driver: bridge
+    name: wordpress
