@@ -1,0 +1,56 @@
+version: "3.9"
+services:
+  redis:
+    image: redis:7-alpine
+    restart: always
+  networks:
+    - wordpress
+
+  db:
+    image: mariadb:11-jammy
+    restart: always
+    volumes:
+      - /data/db:/var/lib/mysql
+    env_file:
+      - ./conf/db/db.env
+    networks:
+      - wordpress
+
+  wordpress:
+    build:
+      context: ./docker/wordpress
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./data/html:/var/www/html
+      - ./conf/wordpress/php_optional.ini:/usr/local/etc/php/conf.d/php_optional.ini
+    env_file:
+      - ./conf/wordpress/wordpress.env
+    networks:
+      - wordpress
+
+  caddy:
+    build:
+      context: ./docker/caddy
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - ./conf/caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./data/html:/var/www/html
+      - ./data/caddy/data:/data
+      - ./data/caddy/config:/config
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    env_file:
+      - ./conf/caddy/caddy.env
+    networks:
+      - wordpress
+
+networks:
+  wordpress:
+    driver: bridge
