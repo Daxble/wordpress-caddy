@@ -28,7 +28,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     depends_on:
-      - db
+      - mariadb
       - redis
     volumes:
       - ./data/html:/var/www/html
