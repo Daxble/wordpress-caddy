@@ -3,8 +3,8 @@ services:
   redis:
     image: redis:7-alpine
     restart: always
-  networks:
-    - wordpress
+    networks:
+      - wordpress
 
   db:
     image: mariadb:11-jammy
