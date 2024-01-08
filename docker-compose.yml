@@ -14,7 +14,7 @@ services:
     image: mariadb:11-jammy
     restart: always
     volumes:
-      - /data/db:/var/lib/mysql
+      - ./data/db:/var/lib/mysql
     env_file:
       - ./conf/db/db.env
     networks:
