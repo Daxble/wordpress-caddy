@@ -35,6 +35,10 @@ services:
       - ./conf/wordpress/php_optional.ini:/usr/local/etc/php/conf.d/php_optional.ini
     env_file:
       - ./conf/wordpress/wordpress.env
+    environment:
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WP_REDIS_HOST', 'redis');
+        define('WP_REDIS_PORT', '6379');
     networks:
       - wordpress
 
