@@ -4,7 +4,7 @@
 
 {$SERVER_NAME} {    
   root * /var/www/html
-  encode zstd gzip
+  encode gzip
 
   tls {
     dns cloudflare {env.CLOUDFLARE_API_TOKEN}
