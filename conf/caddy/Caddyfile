@@ -29,10 +29,12 @@
   php_fastcgi wordpress:9000
   file_server
 
-  header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload;"
-	header X-Frame-Options "SAMEORIGIN"
-	header X-Content-Type-Options "nosniff"
-	header Referrer-Policy "strict-origin"
-	header X-XSS-Protection "1; mode-block"
-  header Permissions-Policy "fullscreen=(self)"
+  header / {
+    Strict-Transport-Security max-age=31536000; includeSubDomains; preload;
+    X-Frame-Options SAMEORIGIN
+    X-Content-Type-Options nosniff
+    Referrer-Policy strict-origin
+    X-XSS-Protection 1; mode-block
+    Permissions-Policy fullscreen=(self)
+  }
 }
