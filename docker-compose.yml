@@ -32,7 +32,7 @@ services:
       - redis
     volumes:
       - ./data/html:/var/www/html
-      - ./conf/wordpress/php_optional.ini:/usr/local/etc/php/conf.d/php_optional.ini
+      - ./conf/wordpress/php.ini:/usr/local/etc/php/conf.d/php_optional.ini
     env_file:
       - ./conf/wordpress/wordpress.env
     environment:
