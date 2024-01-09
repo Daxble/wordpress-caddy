@@ -1,37 +1,39 @@
 {
-    default_sni {$SERVER_NAME}
+  default_sni {$SERVER_NAME}
 }
 
 {$SERVER_NAME} {    
-    root * /var/www/html
-    encode zstd gzip
+  root * /var/www/html
+  encode zstd gzip
 
-		tls {
-			dns cloudflare {env.CLOUDFLARE_API_TOKEN}
-		}
+  tls {
+    dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+  }
 
-		# Deny access to wordpress files
-    @forbidden {
-        not path /wp-includes/ms-files.php
-        path /wp-admin/includes/*.php
-        path /wp-includes/*.php
-        path /wp-config.php
-        path /wp-content/uploads/*.php
-        path /.user.ini
-        path /wp-content/debug.log
-    }
-    respond @forbidden "Access denied" 403
+  log {
+    output file /var/log/caddy.log
+  }
 
-    php_fastcgi wordpress:9000
-    file_server
+  # Deny access to wordpress files
+  @forbidden {
+    not path /wp-includes/ms-files.php
+    path /wp-admin/includes/*.php
+    path /wp-includes/*.php
+    path /wp-config.php
+    path /wp-content/uploads/*.php
+    path /.user.ini
+    path /wp-content/debug.log
+  }
+  respond @forbidden "Access denied" 403
 
-    log {
-        output file /var/log/caddy.log
-    }
+  php_fastcgi wordpress:9000
+  file_server
 
-    header / {
-      X-Frame-Options "SAMEORIGIN"
-      X-Content-Type-Options "nosniff"
-    }
-
+  header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload;"
+	header X-Frame-Options "SAMEORIGIN"
+	header X-Content-Type-Options "nosniff"
+	header Referrer-Policy "strict-origin"
+	header X-Robots-Tag "noindex, nofollow, nosnippet, noarchive"
+	header X-XSS-Protection "1; mode-block"
+  header Permissions-Policy "fullscreen=(self)"
 }
