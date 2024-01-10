@@ -19,7 +19,7 @@
     not path /wp-includes/ms-files.php
     path /wp-admin/includes/*.php
     path /wp-includes/*.php
-    path /wp-config.php
+    ## path /wp-config.php
     path /wp-content/uploads/*.php
     path /.user.ini
     path /wp-content/debug.log
@@ -27,7 +27,7 @@
   respond @forbidden "Access denied" 403
 
   php_fastcgi wordpress:9000
-  file_server browse
+  file_server
 
   header / {
     Strict-Transport-Security max-age=31536000; includeSubDomains; preload;
