@@ -19,7 +19,7 @@
     not path /wp-includes/ms-files.php
     path /wp-admin/includes/*.php
     path /wp-includes/*.php
-    ## path /wp-config.php
+    path /wp-config.php
     path /wp-content/uploads/*.php
     path /.user.ini
     path /wp-content/debug.log
