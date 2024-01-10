@@ -62,6 +62,7 @@ services:
       - ./data/html:/var/www/html
       - ./data/caddy/data:/data
       - ./data/caddy/config:/config
+      - /var/log:/var/log
     ports:
       - "80:80"
       - "443:443"
